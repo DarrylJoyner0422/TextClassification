@@ -32,13 +32,13 @@ In this project, I will train and analyze a text classifier to predict sarcasm i
 
 <h2>Program walk-through:</h2>
 
-<p align="center">
-Launch the utility: <br/>
-<img src="https://photos.app.goo.gl/xdWqi7pnY8RGUkSd9" height="80%" width="80%" alt="DJ Test "/>
+<p align="left">
+Launch the utility <br/>
+<img src="https://i.imgur.com/2eHTkdv.jpeg" height="80%" width="80%" alt="DJ Test "/>
 <br />
 <br />
 Select the disk:  <br/>
-<img src="https://i.imgur.com/tcTyMUE.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://photos.app.goo.gl/xdWqi7pnY8RGUkSd9" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 <br />
 <br />
 Enter the number of passes: <br/>
