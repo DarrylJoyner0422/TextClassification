@@ -34,7 +34,7 @@ In this project, I will train and analyze a text classifier to predict sarcasm i
 
 <p align="center">
 Launch the utility: <br/>
-<img src="https://imgur.com/Ic22eby" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://photos.fife.usercontent.google.com/pw/AP1GczNTOV7NMB-nsTkS6Mhv_hGkoc4m8xtctiqfps02qqFF-8bfOw53f0v_8Q=w362-h142-s-no-gm?authuser=0" height="80%" width="80%" alt="DJ Test "/>
 <br />
 <br />
 Select the disk:  <br/>
