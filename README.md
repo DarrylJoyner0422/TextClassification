@@ -46,11 +46,11 @@ Examples of Sarcastic vs Not Sarcastic: <br/>
 <br />
 <br />
 Proof of Balance: The training data in train_df, along with the test set in bal_df, is balanced, in that there are an equal number of sarcastic and non-sarcastric labels. The test set in imb_df is imbalanced  <br/>
-<img src=" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/EXdW75H.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 <br />
 <br />
 Store labels in lists for later input into classifier:  <br/>
-<img src="https://i.imgur.com/uTwXL21.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/uTwXL21.jpeg" height="40%" width="40%" alt="Disk Sanitization Steps"/>
 <br />
 <br />
 Sanitization complete:  <br/>
