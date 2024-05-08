@@ -33,24 +33,24 @@ In this project, I will train and analyze a text classifier to predict sarcasm i
 <h2>Program walk-through:</h2>
 
 <p align="left">
-Launch the utility <br/>
-<img src="https://i.imgur.com/2eHTkdv.jpeg" height="80%" width="80%" alt="DJ Test "/>
+Load Python Libraries: <br/>
+<img src="https://i.imgur.com/JTLR7y6.jpeg" height="50%" width="50%" alt="DJ Test "/>
 <br />
 <br />
-Select the disk:  <br/>
-<img src="https://photos.app.goo.gl/xdWqi7pnY8RGUkSd9" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+Load the Data:  <br/>
+<img src="https://i.imgur.com/JrBOY7a.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 <br />
 <br />
-Enter the number of passes: <br/>
-<img src="https://i.imgur.com/nCIbXbg.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+Examples of Sarcastic vs Not Sarcastic: <br/>
+<img src="https://i.imgur.com/6YuMVlc.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 <br />
 <br />
-Confirm your selection:  <br/>
-<img src="https://i.imgur.com/cdFHBiU.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+Proof of Balance: The training data in train_df, along with the test set in bal_df, is balanced, in that there are an equal number of sarcastic and non-sarcastric labels. The test set in imb_df is imbalanced  <br/>
+<img src=" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 <br />
 <br />
-Wait for process to complete (may take some time):  <br/>
-<img src="https://i.imgur.com/JL945Ga.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+Store labels in lists for later input into classifier:  <br/>
+<img src="https://i.imgur.com/uTwXL21.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 <br />
 <br />
 Sanitization complete:  <br/>
