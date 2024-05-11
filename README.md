@@ -188,54 +188,211 @@ Code:<br />
 
 <br />
 <br />
-NEXT PICTURE:  <br/>
-<img src="https://i.imgur.com/AeZkvFQ.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+Examine Most Informative Stopword Features:  <br/>
+I will examine why the with-stopword approach performed better than the approach where stopwords were filtered out.
 
+Steps
+Come up with the subset of coef_df consisting of stopword features (per scikit-learn), and where the corresponding weights are especially high or low. 
+Take especially high or low to mean above 1.5 or below -1.5. 
+Call this subset stopword_feat_df and order it from most negative to most positive model weights.
 
-<br />
-<br />
-NEXT PICTURE:  <br/>
-<img src="https://i.imgur.com/AeZkvFQ.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-
-
-<br />
-<br />
-NEXT PICTURE:  <br/>
-<img src="https://i.imgur.com/AeZkvFQ.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-
-
-<br />
-<br />
-NEXT PICTURE:  <br/>
-<img src="https://i.imgur.com/AeZkvFQ.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/qGcnK6z.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 
 
 
-<br />
-<br />
-NEXT PICTURE:  <br/>
-<img src="https://i.imgur.com/AeZkvFQ.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+
+It seems like there are some stopwords that are very informative of (non)sarcasm.
+
+In fact, in many settings, stopwords can encode a fair amount of linguistic or social information. So it's worth testing out the impacts of filtering stopwords out versus leaving them in.
+
+
+
+
+
 
 
 
 <br />
 <br />
-NEXT PICTURE:  <br/>
-<img src="https://i.imgur.com/AeZkvFQ.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+Analyze classifier performance:  <br/>
+I will examine the predictions that the model outputs, and what sorts of errors it makes. 
+I would like to explore the poor performance on the imbalanced test set.
+
+Steps:
+Output the proportion of sarcasm labels and predictions
+Compute the proportion of items in the imbalanced test set which are labeled sarcastic.
+Comput  the proportion of items in that set which the model guessed was sarcastic. 
+Call these values pr_label_is_sarcasm and pr_pred_is_sarcasm respectively.
+<img src="https://i.imgur.com/KnUc9lT.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+
+The model predicts sarcasm much more often than sarcastic items actually exist in the data!
+
+This test data is heavily imbalanced. The data I trained the model on was balanced, with close to 50% of items having a sarcastic label. Some of my prediction errors may have incurred due to this shift in label distribution between training and testing: the model was over-estimating how many items are sarcastic because that's what it expects from the distribution in the training data. In other words, it's miscalibrated.
+
+
+
+Next I will consider a way of looking at this label distribution problem. 
+In addition to outputting a predicted label, a logistic regression classifier also outputs a estimated probability that an item is of that label. In the below dataframe, I will collect the actual labels and predictions, along with the model's estimated probability that each item in the imbalanced set is sarcastic:<br />
+
+<img src="https://i.imgur.com/MwjhMCa.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+
+
+
+Since there are only two labels (sarcastic or not), the way the model converts the probability estimate to a prediction is, simply, output sarcastic if the probability is greater than 0.5.
+
+If the model outputs a "sarcastic" prediction too often, then what would happen if I increased the cutoff beyond 0.5. 
+In this event the model would only predict "sarcastic" for a fewer number of comments where it is especially confident, perhaps resulting in more accurate output. 
+It is not good practice to tweak a model on the test data. But, for the purposes of this assignment I will experiment with lowering or raising the cutoff to build intuition.
 
 
 
 <br />
 <br />
-NEXT PICTURE:  <br/>
-<img src="https://i.imgur.com/AeZkvFQ.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+Vary the Probability Estimate Cutoff:  <br/>
+
+Steps: <br/>
+
+Steps:
+
+get_cutoff_f1 will compute the f1 score, if the model predicts "sarcastic" only when its probability estimate is greater than or equal to a given cutoff.
+get_pr_pos_preds will compute the proportion of items the models predicts is "sarcastic", if it makes that prediction when its probability estimate is greater than or equal to a given cutoff.
+For both functions, the true and pr parameters are arrays containing the label of each item and the probability estimate for each item.
+
+<img src="https://i.imgur.com/FKDdm76.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+
+
+By default, the model's cutoff is 0.5, so the outputs of the functions when cutoff=0.5 should be equivalent to how well the model is currently doing. If I raise the cutoff slightly, here's what happens:<br />
+
+
+<img src="https://i.imgur.com/Ft3dxAx.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+
+
+I will graph what happens at different cutoff values: how do the proportion of predictions and the f1 score vary?<br />
+
+<img src="https://i.imgur.com/78hgGtQ.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+
+<img src="https://i.imgur.com/RzzI4qv.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+
+This shows that the proportion of items predicted as sarcastic decreases from 1 to 0 as the cutoff increases, following a sigmoid-like curve. The f1 score peaks somewhere in the middle.
+
+
 
 
 
 <br />
 <br />
-NEXT PICTURE:  <br/>
-<img src="https://i.imgur.com/AeZkvFQ.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+Locate The Max f1 score:  <br/>
+
+Computing the F1 score is essential here as it provides a robust measure of the classifier's accuracy. This is specifically in the context of the sarcasm detection where class distinctions can be subtle, ambiguous and subjective. The F1 score will allow us to combine precision and recall and will offer a single metric that balances the trade-off between the two. 
+
+This balance is crucial in this dataset because sarcasm may not be consistently marked and the consequences of misclassifications—either missing sarcastic comments or falsely labeling genuine comments as sarcastic—can significantly impact the model's utility. By focusing on the F1 score, I will ensure that the classifier not only identifies sarcasm effectively but also minimizes errors in a way that is practical for real-world application. This is the vital step in fine-tuning and validating the model’s performance.<br />
+
+
+Steps: 
+Assign to the following variables:
+
+max_f1: the maximum f1 score, across all of the cutoffs sampled 
+max_at_cutoff: the value of the cutoff that achieves the maximum f1 score
+pr_at_max: the proportion of items predicted as sarcastic, when the maximum f1 score is achieved.
+
+<img src="https://i.imgur.com/6kocYEZ.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+
+
+Results:
+I show that for a certain value of cutoff (that's higher than 0.5), I get a better-looking f1 score, and fewer "sarcastic" predictions.
+
+These results indicate that having a training dataset that better reflects the distribution of labels I expect at test time may result in a better-calibrated model. Even with this toggling, the f1 score only goes up so far -- suggesting that there may be additional signal the model is failing to capture, beyond the label distribution problem, and/or that the task is inherently ambiguous or difficult.
+
+
+
+
+
+
+
+
+
+
+
+<br />
+<br />
+Examine Specific Model Errors:  <br/>
+
+Now I will examine particular items in the imbalanced test data where the model made an error. To build intuition, I will focus on cases where the model was particularly confident in making that incorrect prediction.
+
+I will store the comment texts in pred_df 
+
+
+<img src="https://i.imgur.com/0xBSbWs.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+
+
+
+There are two types of errors the model can make: <br />
+1. false positives (where the label is "not sarcastic" but the model outputs "sarcastic")
+2. false negatives (where the label is "sarcastic" but the model outputs "not sarcastic").
+
+Get subsets of pred_df:
+
+false_pos: the 10 items in the imbalanced data where the model makes a false positive error, ordered from more to less confident.
+false_neg: the 10 items where the model makes a false negative error, ordered from more to less confident.
+(higher or lower probabilities, as stored in pred_df, correspond to more confident predictions of "sarcastic" and of "not sarcastic")
+
+
+<img src="https://i.imgur.com/LOmeioi.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+
+<img src="https://i.imgur.com/8QS9jJm.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+
+
+<img src="https://i.imgur.com/rASp7q9.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+
+
+
+<img src="https://i.imgur.com/K98ZdLT.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+
+
+
+
+I will use these to inspect the most confident model errors:
+
+
+<img src="https://i.imgur.com/G0qEKsa.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+
+<img src="https://i.imgur.com/K98ZdLT.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+
+
+Reading through these examples I examine what accounts for these errors: the ability to model text, or some property of the data, or something about the nature of sarcasm in Reddit comments?
+
+Questions: do people on Reddit consistently use /s when they are being sarcastic? If they do this some but not all of the time, but not all of the time, then
+
+1. A model trained on this label might still learn a rough sense of what sarcasm looks like in text;
+2. The model might make wrong predictions when the comment-writer has misapplied the label.
+
+Another case to consider is if people only use /s for certain types of sarcasm. Suppose that /s is only applied to sarcastic comments when people are making jokes; otherwise, sarcastic comments are left unadorned. In that case, would a model trained on this label learn about signifiers of sarcasm, or signifiers of sarcastic comments written in a joke-y context?
+
+
+
+
+<br />
+<br />
+Predict on Individual Items:  <br/>
+
+One other way of checking that I understood what the model was doing is to see if I could think of inputs that result in different model predictions. The following code took a string text and output the model's prediction on it:
+
+
+
+<img src="https://i.imgur.com/rO26Ze0.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+
+
+
+In the below cell, I tested with two strings:
+
+1. outputs_sarcastic will be predicted to be sarcastic by our model;
+2. outputs_not_sarcastic will be predicted to be not sarcastic by our model.
+
+Neither of these strings occurred anywhere in the training or test datasets 
+
+
+<img src="https://i.imgur.com/RMVP3wy.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+
 
 
 
