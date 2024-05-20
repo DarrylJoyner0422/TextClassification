@@ -84,7 +84,7 @@ The performance looks much worse on the imbalanced data. I will closely consider
 
 
 <br />
-<br />
+
 
 
 
@@ -105,8 +105,6 @@ Use the vectorizer to featurize the balanced and imbalanced test data. Call the 
 We get slightly more features than before -- which makes sense, given that we do not remove stopwords.
 
 
-
-<br />
 <br />
 Train and evaluate classifier, with stopwords included:  <br/>
 Now I'll train a logistic regression classifier on the new set of features.
@@ -124,18 +122,12 @@ Compute f1 scores for each set of prediction, and call the resultant scores f1_b
 
 
 <br />
-<br />
-NEXT PICTURE:  <br/>
-<img src="https://i.imgur.com/AeZkvFQ.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 
 
 Findings = Note that relative to the no-stopwords case, we get slightly better model performance.
 
 
 
-
-
-<br />
 <br />
 Examine Model Weights:  <br/>
 I will examine what features are informative for the classifier. Since the vectorizer+classifier pipeline with stopwords performed slightly better, I will focus on it for the rest of the development.
@@ -158,40 +150,32 @@ I will store the features and model weights in the following dataframe:
 
 
 <br />
-<br />
+<br/>
 Examine Most Informative Features:  <br/>
-I will define two subsets of coef_df:
+I will define two subsets of coef_df: <br/>
 
-** pos_coef_df: the 25 features that are the most informative that a text is sarcastic, ordered from more to less informative;
+
+** pos_coef_df: the 25 features that are the most informative that a text is sarcastic, ordered from more to less informative;<br/>
 ** neg_coef_df: the 25 features that are most informative that a text is not sarcastic, ordered from more to less informative
 
-<img src="https://i.imgur.com/KAikGQe.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/KAikGQe.jpeg" height="40%" width="40%" alt="Disk Sanitization Steps"/>
 
 Code:<br />
-<img src="https://i.imgur.com/GOONktQ.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/GOONktQ.jpeg" height="%" width="80%" alt="Disk Sanitization Steps"/>
 
 <img src="https://i.imgur.com/dg24YzX.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-<img src="https://i.imgur.com/KR3pSBH.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/KR3pSBH.jpeg" height="60%" width="60%" alt="Disk Sanitization Steps"/>
 
 
 
 
 
-2.3-----------------------------
-
-
-
-
-
-
-
-
-<br />
 <br />
 Examine Most Informative Stopword Features:  <br/>
 I will examine why the with-stopword approach performed better than the approach where stopwords were filtered out.
+<br />
 
-Steps
+Steps:<br />
 Come up with the subset of coef_df consisting of stopword features (per scikit-learn), and where the corresponding weights are especially high or low. 
 Take especially high or low to mean above 1.5 or below -1.5. 
 Call this subset stopword_feat_df and order it from most negative to most positive model weights.
@@ -207,12 +191,6 @@ In fact, in many settings, stopwords can encode a fair amount of linguistic or s
 
 
 
-
-
-
-
-
-<br />
 <br />
 Analyze classifier performance:  <br/>
 I will examine the predictions that the model outputs, and what sorts of errors it makes. 
@@ -252,10 +230,9 @@ Vary the Probability Estimate Cutoff:  <br/>
 
 Steps: <br/>
 
-Steps:
 
-get_cutoff_f1 will compute the f1 score, if the model predicts "sarcastic" only when its probability estimate is greater than or equal to a given cutoff.
-get_pr_pos_preds will compute the proportion of items the models predicts is "sarcastic", if it makes that prediction when its probability estimate is greater than or equal to a given cutoff.
+get_cutoff_f1 will compute the f1 score, if the model predicts "sarcastic" only when its probability estimate is greater than or equal to a given cutoff.<br/>
+get_pr_pos_preds will compute the proportion of items the models predicts is "sarcastic", if it makes that prediction when its probability estimate is greater than or equal to a given cutoff. <br/>
 For both functions, the true and pr parameters are arrays containing the label of each item and the probability estimate for each item.
 
 <img src="https://i.imgur.com/FKDdm76.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
@@ -288,12 +265,12 @@ Computing the F1 score is essential here as it provides a robust measure of the 
 This balance is crucial in this dataset because sarcasm may not be consistently marked and the consequences of misclassifications—either missing sarcastic comments or falsely labeling genuine comments as sarcastic—can significantly impact the model's utility. By focusing on the F1 score, I will ensure that the classifier not only identifies sarcasm effectively but also minimizes errors in a way that is practical for real-world application. This is the vital step in fine-tuning and validating the model’s performance.<br />
 
 
-Steps: 
+Steps: <br/>
 Assign to the following variables:
 
-max_f1: the maximum f1 score, across all of the cutoffs sampled 
-max_at_cutoff: the value of the cutoff that achieves the maximum f1 score
-pr_at_max: the proportion of items predicted as sarcastic, when the maximum f1 score is achieved.
+max_f1: the maximum f1 score, across all of the cutoffs sampled <br/>
+max_at_cutoff: the value of the cutoff that achieves the maximum f1 score <br/>
+pr_at_max: the proportion of items predicted as sarcastic, when the maximum f1 score is achieved.<br/>
 
 <img src="https://i.imgur.com/6kocYEZ.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 
@@ -305,15 +282,6 @@ These results indicate that having a training dataset that better reflects the d
 
 
 
-
-
-
-
-
-
-
-
-<br />
 <br />
 Examine Specific Model Errors:  <br/>
 
